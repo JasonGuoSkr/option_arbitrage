@@ -75,7 +75,7 @@ def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, 
 
 
 if __name__ == '__main__':
-    rq.init()
+    rq.init("ricequant", "8ricequant8", ('10.29.135.119', 16010))
 
     # 参数
     tradeDate = '20200107'

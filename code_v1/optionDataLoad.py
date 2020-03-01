@@ -50,15 +50,15 @@ def get_tick(contract_id, start_date, end_date):
 
 
 if __name__ == '__main__':
-    rq.init()
+    rq.init("ricequant", "8ricequant8", ('10.29.135.119', 16010))
 
     dataDir = "E:/中泰证券/策略/期权套利/期权tick数据/"
     if not os.path.exists(dataDir):
         os.makedirs(dataDir)
 
     # trade_date = datetime.datetime.now().strftime('%Y%m%d')
-    startDate = '20200107'
-    endDate = '20200110'
+    startDate = '20200203'
+    endDate = '20200207'
 
     # underlyingList = ['510050.XSHG', '510300.XSHG', '159919.XSHE']
     underlyingList = ['510300.XSHG']
