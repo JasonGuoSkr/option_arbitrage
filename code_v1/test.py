@@ -93,9 +93,9 @@ def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, 
     last_data['krt'] = [strike_price * np.exp(-risk_free * t) for t in allday_list]
 
     # 价差计算
-    short_spread = short_data['f'] - (short_data['c'] - short_data['p'] + short_data['krt']) * 1000
-    long_spread = long_data['f'] - (long_data['c'] - long_data['p'] + long_data['krt']) * 1000
-    last_data = last_data['f'] - (last_data['c'] - last_data['p'] + last_data['krt']) * 1000
+    short_spread = short_data['f'] - (short_data['c'] - short_data['p'] + short_data['krt'])
+    long_spread = long_data['f'] - (long_data['c'] - long_data['p'] + long_data['krt'])
+    last_data = last_data['f'] - (last_data['c'] - last_data['p'] + last_data['krt'])
 
     spread_data = pd.concat([short_spread, long_spread, last_data], axis=1)
     spread_data.columns = ['short', 'long', 'last']
