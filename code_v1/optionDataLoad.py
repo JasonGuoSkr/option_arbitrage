@@ -44,7 +44,7 @@ def get_tick(contract_id, start_date, end_date):
 
     list_str_stamp = df_tick.index.strftime("%Y-%m-%d %H:%M:%S.%f")
     list_stamp = [ind[11:] for ind in list_str_stamp]
-    list_stamp_bool = ['09:30:00.000000' <= ind <= '15:00:01.000000' for ind in list_stamp]
+    list_stamp_bool = ['09:25:00.000000' <= ind <= '15:01:00.000000' for ind in list_stamp]
 
     return df_tick.loc[list_stamp_bool]
 
