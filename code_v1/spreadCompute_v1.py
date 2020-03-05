@@ -109,6 +109,34 @@ def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, 
     return pd.concat([spread_data, data_join], axis=1)
 
 
+def spread_compute(start_date, end_date, underlying_spot, underlying_symbol, strike_price, maturity_month,
+                   risk_free=0.035):
+    """
+    :param start_date: 开始日期
+    :param end_date: 结束日期
+    :param underlying_spot: 标的代码
+    :param underlying_symbol: 期货代号IH/IF/IC
+    :param strike_price: 期权执行价
+    :param maturity_month: 期权到期月
+    :param risk_free: 无风险利率
+    :return:
+    """
+    date_list = rq.get_trading_dates(start_date=start_date, end_date=end_date)
+    data_final = pd.DataFrame()
+
+    for date_ind in date_list:
+        date_ind = date_ind.strftime('%Y%m%d')
+        try:
+            daily_data = daily_compute(date_ind, underlying_spot, underlying_symbol, strike_price, maturity_month,
+                                       risk_free)
+        except AttributeError:
+            print(date_ind + '计算错误')
+        else:
+            data_final = pd.concat([data_final, daily_data], axis=0)
+
+    return data_final
+
+
 if __name__ == '__main__':
     rq.init("ricequant", "8ricequant8", ('10.29.135.119', 16010))
 
@@ -116,7 +144,7 @@ if __name__ == '__main__':
     tradeDate = '20200304'
 
     ID = '10002157'
-    startDate = '20200304'
+    startDate = '20200303'
     endDate = '20200304'
 
     dfTick = rq.get_price(ID, start_date=startDate, end_date=endDate, frequency='tick', fields=None)
@@ -140,5 +168,7 @@ if __name__ == '__main__':
     filterCallOptionData = data_resample(callOptionData)
     filterFutureData = data_resample(futureData)
 
-    Data = daily_compute(tradeDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth, risk_free=riskFree)
+    # Data = daily_compute(tradeDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth, risk_free=riskFree)
 
+    Data = spread_compute(startDate, endDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth,
+                          risk_free=riskFree)
