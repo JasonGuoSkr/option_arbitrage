@@ -142,4 +142,3 @@ if __name__ == '__main__':
 
     Data = daily_compute(tradeDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth, risk_free=riskFree)
 
-    
