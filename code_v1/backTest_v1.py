@@ -1,24 +1,26 @@
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+"""
+套利回测
+"""
+
+
 def strategy(data, open_par=2, close_par=0, stop_par=3):
-    last_data = data['call_last', 'put_last', 'future_last', 'time']
-    short_data = data['call_last', 'put_last', 'future_last', 'time']
-    long_data = data['call_last', 'put_last', 'future_last', 'time']
+    future_short_price = data['future_bid']
+    future_long_price = data['future_ask']
+    option_short_price = (data['call_ask'] - data['put_bid'] + data['k_discount']) * 1000
+    option_long_price = (data['call_bid'] - data['put_ask'] + data['k_discount']) * 1000
 
-    price_A = data['rb1907'].values
-    price_B = data['rb1908'].values
-
-    spread = price_A - price_B
-    mspread = spread - np.mean(spread)
-    sigma = np.std(mspread)
-    open = open_par * sigma
-    stop = stop_par * sigma
-    close = close_par * sigma
+    last_spread = data['last_spread']
+    m_spread = last_spread - np.mean(last_spread)
+    sigma = np.std(m_spread)
+    open_threshold = open_par * sigma
+    close_threshold = close_par * sigma
+    stop_threshold = stop_par * sigma
 
     profit_list = []
     hold = False
