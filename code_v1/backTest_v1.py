@@ -71,3 +71,6 @@ def strategy(data, open_par=2, close_par=0, stop_par=3):
     ax.plot(range(len(profit_list)), profit_list)
     plt.show()
 
+
+if __name__ == '__main__':
+    pass
