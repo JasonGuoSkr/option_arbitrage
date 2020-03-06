@@ -31,7 +31,7 @@ def strategy(data, open_par=2, close_par=0, stop_par=3):
 
     for i in range(len(data)):
         if hold_signal == False:
-            if mspread[i] >= open:
+            if m_spread[i] >= open_threshold:
                 hold_price_A = price_A[i]
                 hold_price_B = price_B[i]
                 hold_state = -1
