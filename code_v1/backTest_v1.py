@@ -23,14 +23,14 @@ def strategy(data, open_par=2, close_par=0, stop_par=3):
     stop_threshold = stop_par * sigma
 
     profit_list = []
-    hold = False
-    hold_price_A = 0
-    hold_price_B = 0
-    hold_state = 0  # 1 (A:long B:short)   -1 (A:short B:long)
+    hold_signal = False
+    hold_price_future = 0
+    hold_price_option = 0
+    hold_state = 0  # 1 (future:long option:short); -1 (future:short option:long)
     profit_sum = 0
 
-    for i in range(len(price_A)):
-        if hold == False:
+    for i in range(len(data)):
+        if hold_signal == False:
             if mspread[i] >= open:
                 hold_price_A = price_A[i]
                 hold_price_B = price_B[i]
