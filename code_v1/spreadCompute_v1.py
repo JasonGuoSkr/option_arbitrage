@@ -30,6 +30,7 @@ def get_tick(contract_id, start_date, end_date):
 
 def data_resample(data, freq='500ms'):
     """
+    数据填充补齐
     :param data: 原数据
     :param freq: 频率
     :return:
@@ -44,6 +45,7 @@ def data_resample(data, freq='500ms'):
 
 def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, maturity_month, risk_free=0.035):
     """
+    单日价差计算
     :param trade_date: 交易日期
     :param underlying_spot: 标的代码
     :param underlying_symbol: 期货代号IH/IF/IC
@@ -112,6 +114,7 @@ def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, 
 def spread_compute(start_date, end_date, underlying_spot, underlying_symbol, strike_price, maturity_month,
                    risk_free=0.035):
     """
+    多日价差计算
     :param start_date: 开始日期
     :param end_date: 结束日期
     :param underlying_spot: 标的代码
