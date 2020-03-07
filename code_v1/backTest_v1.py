@@ -29,39 +29,39 @@ def strategy(data, open_par=2, close_par=0, stop_par=3):
     hold_state = 0  # 1 (future:long option:short); -1 (future:short option:long)
     profit_sum = 0
 
-    for i in range(len(data)):
-        if hold_signal == False:
-            if m_spread[i] >= open_threshold:
-                hold_price_A = price_A[i]
-                hold_price_B = price_B[i]
+    for i in range(1, len(data)):
+        if not hold_signal:
+            if m_spread[i - 1] >= open_threshold:
+                hold_price_future = future_short_price[i]
+                hold_price_option = option_short_price[i]
                 hold_state = -1
-                hold = True
-            elif mspread[i] <= -open:
-                hold_price_A = price_A[i]
-                hold_price_B = price_B[i]
+                hold_signal = True
+            elif m_spread[i - 1] <= -open_threshold:
+                hold_price_future = future_long_price[i]
+                hold_price_option = option_long_price[i]
                 hold_state = 1
-                hold = True
+                hold_signal = True
         else:
-            if mspread[i] >= stop and hold_state == -1:
-                profit = (hold_price_A - price_A[i]) + (price_B[i] - hold_price_B)
+            if m_spread[i - 1] >= stop_threshold and hold_state == -1:
+                profit = (hold_price_future - future_long_price[i]) + (option_long_price[i] - hold_price_option)
                 profit_sum += profit
                 hold_state = 0
-                hold = False
-            if mspread[i] <= -stop and hold_state == 1:
-                profit = (price_A[i] - hold_price_A) + (hold_price_B - price_B[i])
+                hold_signal = False
+            if m_spread[i - 1] <= -stop_threshold and hold_state == 1:
+                profit = (future_long_price[i] - hold_price_future) + (hold_price_option - option_long_price[i])
                 profit_sum += profit
                 hold_state = 0
-                hold = False
-            if mspread[i] <= 0 and hold_state == -1:
-                profit = (hold_price_A - price_A[i]) + (price_B[i] - hold_price_B)
+                hold_signal = False
+            if m_spread[i - 1] <= close_threshold and hold_state == -1:
+                profit = (hold_price_future - future_long_price[i]) + (option_long_price[i] - hold_price_option)
                 profit_sum += profit
                 hold_state = 0
-                hold = False
-            if mspread[i] >= 0 and hold_state == 1:
-                profit = (price_A[i] - hold_price_A) + (hold_price_B - price_B[i])
+                hold_signal = False
+            if m_spread[i - 1] >= -close_threshold and hold_state == 1:
+                profit = (future_long_price[i] - hold_price_future) + (hold_price_option - option_long_price[i])
                 profit_sum += profit
                 hold_state = 0
-                hold = False
+                hold_signal = False
         profit_list.append(profit_sum)
 
     print(profit_list)
