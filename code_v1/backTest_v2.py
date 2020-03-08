@@ -10,6 +10,11 @@ import seaborn as sns
 
 
 def strategy(data, open_par=2, close_par=0, stop_par=3):
+
+
+
+
+
     future_short_price = data['future_bid']
     future_long_price = data['future_ask']
     option_short_price = (data['call_ask'] - data['put_bid'] + data['k_discount']) * 1000

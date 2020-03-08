@@ -115,43 +115,42 @@ if __name__ == '__main__':
     # 参数
     tradeDate = '20200107'
 
-    # inputPath1 = "E:/新建文件夹/期权tick数据/"
-    # inputPath2 = "E:/新建文件夹/期货tick数据/"
-    #
-    # call_option_data = pd.read_csv(inputPath1 + "10002140_20200204.csv", index_col=0, engine='python')
-    # put_option_data = pd.read_csv(inputPath1 + "10002149_20200204.csv", index_col=0, engine='python')
-    # future_data = pd.read_csv(inputPath2 + "IF2002_20200204.csv", index_col=0, engine='python')
-    #
-    # call_option_data.index = [datetime.datetime.strptime(ind + "000", "%Y-%m-%d %H:%M:%S.%f")
-    #                           for ind in call_option_data.index]
-    #
-    # put_option_data.index = [datetime.datetime.strptime(ind + "000", "%Y-%m-%d %H:%M:%S.%f")
-    #                           for ind in put_option_data.index]
-    #
-    # future_data.index = [datetime.datetime.strptime(ind + "000", "%Y-%m-%d %H:%M:%S.%f")
-    #                           for ind in future_data.index]
-    #
-    # call_option_data.drop_duplicates(keep='first', inplace=True)
-    # put_option_data.drop_duplicates(keep='first', inplace=True)
-    # future_data.drop_duplicates(keep='first', inplace=True)
-    #
-    # filter_call_option_data = data_resample(call_option_data)
-    # filter_put_option_data = data_resample(put_option_data)
-    # filter_future_data = data_resample(future_data)
-    #
-    # short_data = pd.concat([filter_call_option_data['a1'], filter_put_option_data['b1'], filter_future_data['b1']], axis=1)
-    # long_data = pd.concat([filter_call_option_data['b1'], filter_put_option_data['a1'], filter_future_data['a1']], axis=1)
-    # last_data = pd.concat([filter_call_option_data['last'], filter_put_option_data['last'],
-    #                        filter_future_data['last']], axis=1)
-    # short_data.columns = ['c', 'p', 'f']
-    # long_data.columns = ['c', 'p', 'f']
-    # last_data.columns = ['c', 'p', 'f']
-    #
-    # short_data['t'] = range(len(short_data))
-    #
-    #
-    # inday_list = [ind / len(call_option_data)for ind in list(range(len(call_option_data))) ]
-    # allday_list = [(ind + future_day_delta) / 365 for ind in inday_list]
+    inputPath1 = "E:/新建文件夹/期权tick数据/"
+    inputPath2 = "E:/新建文件夹/期货tick数据/"
 
-    # future_data.index.is_unique
-    # df3[~df3.index.duplicated(keep='first')]
+    call_option_data = pd.read_csv(inputPath1 + "10002140_20200204.csv", index_col=0, engine='python')
+    put_option_data = pd.read_csv(inputPath1 + "10002149_20200204.csv", index_col=0, engine='python')
+    future_data = pd.read_csv(inputPath2 + "IF2002_20200204.csv", index_col=0, engine='python')
+
+    call_option_data.index = [datetime.datetime.strptime(ind + "000", "%Y-%m-%d %H:%M:%S.%f")
+                              for ind in call_option_data.index]
+
+    put_option_data.index = [datetime.datetime.strptime(ind + "000", "%Y-%m-%d %H:%M:%S.%f")
+                              for ind in put_option_data.index]
+
+    future_data.index = [datetime.datetime.strptime(ind + "000", "%Y-%m-%d %H:%M:%S.%f")
+                              for ind in future_data.index]
+
+    call_option_data.drop_duplicates(keep='first', inplace=True)
+    put_option_data.drop_duplicates(keep='first', inplace=True)
+    future_data.drop_duplicates(keep='first', inplace=True)
+
+    filter_call_option_data = data_resample(call_option_data)
+    filter_put_option_data = data_resample(put_option_data)
+    filter_future_data = data_resample(future_data)
+
+    short_data = pd.concat([filter_call_option_data['a1'], filter_put_option_data['b1'], filter_future_data['b1']], axis=1)
+    long_data = pd.concat([filter_call_option_data['b1'], filter_put_option_data['a1'], filter_future_data['a1']], axis=1)
+    last_data = pd.concat([filter_call_option_data['last'], filter_put_option_data['last'],
+                           filter_future_data['last']], axis=1)
+    short_data.columns = ['c', 'p', 'f']
+    long_data.columns = ['c', 'p', 'f']
+    last_data.columns = ['c', 'p', 'f']
+
+    short_data['t'] = range(len(short_data))
+
+
+    inday_list = [ind / len(call_option_data)for ind in list(range(len(call_option_data))) ]
+    allday_list = [(ind + future_day_delta) / 365 for ind in inday_list]
+
+    short_data.index.date.unique()
