@@ -42,7 +42,7 @@ def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
     hold_state = 0  # 1 (future:long option:short); -1 (future:short option:long)
     profit_sum = 0
 
-    for i in range(1, len(data)):
+    for i in range(1, len(data) - 1):
         if not hold_signal:
             if m_spread[i - 1] >= open_threshold:
                 hold_price_future = future_short_price[i]
