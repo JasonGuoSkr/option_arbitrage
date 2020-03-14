@@ -55,10 +55,10 @@ if __name__ == '__main__':
         os.makedirs(dataDir)
 
     # trade_date = datetime.datetime.now().strftime('%Y%m%d')
-    startDate = '20200203'
-    endDate = '20200207'
+    startDate = '20200302'
+    endDate = '20200309'
 
     # contractList = ['IF2001', 'IH2001']
-    contractList = ['IF2002']
+    contractList = ['IF2003']
 
     future_data_load(dataDir, *contractList, start_date=startDate, end_date=endDate)

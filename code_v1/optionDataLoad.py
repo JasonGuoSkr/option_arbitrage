@@ -57,8 +57,8 @@ if __name__ == '__main__':
         os.makedirs(dataDir)
 
     # trade_date = datetime.datetime.now().strftime('%Y%m%d')
-    startDate = '20200203'
-    endDate = '20200207'
+    startDate = '20200302'
+    endDate = '20200306'
 
     # underlyingList = ['510050.XSHG', '510300.XSHG', '159919.XSHE']
     underlyingList = ['510300.XSHG']

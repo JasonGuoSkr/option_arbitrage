@@ -147,29 +147,29 @@ if __name__ == '__main__':
     tradeDate = '20200304'
 
     ID = '10002157'
-    startDate = '20200303'
-    endDate = '20200304'
 
     dfTick = rq.get_price(ID, start_date=startDate, end_date=endDate, frequency='tick', fields=None)
     dfTick = dfTick.between_time('09:25:00', '15:01:00')
 
+    startDate = '20200312'
+    endDate = '20200313'
     underlyingSpot = '510300.XSHG'
     underlyingSymbol = 'IF'
     strikePrice = 4.000
     maturityMonth = 2003
     riskFree = 0.035
 
-    callOptionCode = rq.options.get_contracts(underlyingSpot, option_type='C', maturity=maturityMonth,
-                                              strike=strikePrice, trading_date=tradeDate)[0]
-    futureCode = rq.futures.get_dominant(underlyingSymbol, start_date=tradeDate, end_date=tradeDate, rule=0)[0]
-
-    callOptionData = get_tick(callOptionCode, tradeDate, tradeDate)
-    callOptionData.drop_duplicates(keep='first', inplace=True)
-    futureData = get_tick(futureCode, tradeDate, tradeDate)
-    futureData.drop_duplicates(keep='first', inplace=True)
-
-    filterCallOptionData = data_resample(callOptionData)
-    filterFutureData = data_resample(futureData)
+    # callOptionCode = rq.options.get_contracts(underlyingSpot, option_type='C', maturity=maturityMonth,
+    #                                           strike=strikePrice, trading_date=tradeDate)[0]
+    # futureCode = rq.futures.get_dominant(underlyingSymbol, start_date=tradeDate, end_date=tradeDate, rule=0)[0]
+    #
+    # callOptionData = get_tick(callOptionCode, tradeDate, tradeDate)
+    # callOptionData.drop_duplicates(keep='first', inplace=True)
+    # futureData = get_tick(futureCode, tradeDate, tradeDate)
+    # futureData.drop_duplicates(keep='first', inplace=True)
+    #
+    # filterCallOptionData = data_resample(callOptionData)
+    # filterFutureData = data_resample(futureData)
 
     # Data = daily_compute(tradeDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth, risk_free=riskFree)
 
