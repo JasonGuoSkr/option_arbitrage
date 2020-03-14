@@ -3,6 +3,7 @@ import time
 import numpy as np
 import pandas as pd
 import datetime
+import matplotlib.pyplot as plt
 import rqdatac as rq
 
 
@@ -148,10 +149,10 @@ if __name__ == '__main__':
 
     ID = '10002157'
 
-    dfTick = rq.get_price(ID, start_date=startDate, end_date=endDate, frequency='tick', fields=None)
-    dfTick = dfTick.between_time('09:25:00', '15:01:00')
+    # dfTick = rq.get_price(ID, start_date=startDate, end_date=endDate, frequency='tick', fields=None)
+    # dfTick = dfTick.between_time('09:25:00', '15:01:00')
 
-    startDate = '20200312'
+    startDate = '20200313'
     endDate = '20200313'
     underlyingSpot = '510300.XSHG'
     underlyingSymbol = 'IF'
@@ -175,3 +176,8 @@ if __name__ == '__main__':
 
     Data = spread_compute(startDate, endDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth,
                           risk_free=riskFree)
+
+    fig = plt.figure(figsize=(5, 3))
+    plt.plot(Data['short_spread'].values, label='short_spread')
+    plt.plot(Data['long_spread'].values, label='long_spread')
+    plt.show()
