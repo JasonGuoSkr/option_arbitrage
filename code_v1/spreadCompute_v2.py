@@ -133,8 +133,8 @@ def statistical_sum(data):
     :return:
     """
     date_list = np.unique(data.index.date).tolist()
-    sum_df = pd.DataFrame(index=date_list, columns=['last_mean', 'last_std', 'last_max', 'last_min',
-                                                    'tap', 'short_mean', 'long_mean'])
+    sum_df = pd.DataFrame(index=date_list, columns=['trade_scope', 'tap', 'last_mean', 'last_std', 'last_max',
+                                                    'last_min','upper_bound', 'lower_bound', 'short_mean', 'long_mean'])
 
     for date in date_list:
         daily_data = data[data.index.date == date]
@@ -143,6 +143,9 @@ def statistical_sum(data):
         sum_df.loc[date, 'last_std'] = round(daily_data['last_spread'].std(), 2)
         sum_df.loc[date, 'last_max'] = round(daily_data['last_spread'].max(), 2)
         sum_df.loc[date, 'last_min'] = round(daily_data['last_spread'].min(), 2)
+        sum_df.loc[date, 'upper_bound'] = round(daily_data['short_spread'].quantile(0.95), 2)
+        sum_df.loc[date, 'lower_bound'] = round(daily_data['long_spread'].quantile(0.05), 2)
+        sum_df.loc[date, 'trade_scope'] = round(sum_df.loc[date, 'upper_bound'] - sum_df.loc[date, 'lower_bound'], 2)
         sum_df.loc[date, 'short_mean'] = round(daily_data['short_spread'].mean(), 2)
         sum_df.loc[date, 'long_mean'] = round(daily_data['long_spread'].mean(), 2)
         sum_df.loc[date, 'tap'] = round(sum_df.loc[date, 'long_mean'] - sum_df.loc[date, 'short_mean'], 2)
