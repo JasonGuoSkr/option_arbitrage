@@ -22,10 +22,6 @@ def get_tick(contract_id, start_date, end_date):
     """
     df_tick = rq.get_price(contract_id, start_date=start_date, end_date=end_date, frequency='tick', fields=None)
 
-    # list_str_stamp = df_tick.index.strftime("%Y-%m-%d %H:%M:%S.%f")
-    # list_stamp = [ind[11:] for ind in list_str_stamp]
-    # list_stamp_bool = ['09:25:00.000000' <= ind <= '15:01:00.000000' for ind in list_stamp]
-
     return df_tick.between_time('09:25:00', '15:01:00')
 
 
@@ -39,9 +35,6 @@ def data_resample(data, freq='500ms'):
     data = data.resample(freq).ffill()
     data = data.between_time('09:31:00', '14:55:00')
     return data.between_time('13:00:00', '11:30:00')
-    # date_ind = data.index[0].strftime("%Y-%m-%d")
-    # return data.between_time(datetime.datetime.strptime(date_ind + '13:00:00.000000', "%Y-%m-%d %H:%M:%S.%f"),
-    #                          datetime.datetime.strptime(date_ind + '11:30:00.000000', "%Y-%m-%d %H:%M:%S.%f"))
 
 
 def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, maturity_month, risk_free=0.035):
@@ -102,13 +95,6 @@ def daily_compute(trade_date, underlying_spot, underlying_symbol, strike_price, 
     spread_data = pd.concat([short_spread, long_spread, last_spread], axis=1)
     spread_data.columns = ['short_spread', 'long_spread', 'last_spread']
 
-    # short_data = pd.concat([filter_call_option_data['a1'], filter_put_option_data['b1'],
-    #                         filter_future_data['b1']], axis=1)
-    # long_data = pd.concat([filter_call_option_data['b1'], filter_put_option_data['a1'],
-    #                        filter_future_data['a1']], axis=1)
-    # last_data = pd.concat([filter_call_option_data['last'], filter_put_option_data['last'],
-    #                        filter_future_data['last']], axis=1)
-
     return pd.concat([spread_data, data_join], axis=1)
 
 
@@ -147,11 +133,6 @@ if __name__ == '__main__':
     # 参数
     tradeDate = '20200304'
 
-    ID = '10002157'
-
-    # dfTick = rq.get_price(ID, start_date=startDate, end_date=endDate, frequency='tick', fields=None)
-    # dfTick = dfTick.between_time('09:25:00', '15:01:00')
-
     startDate = '20200313'
     endDate = '20200313'
     underlyingSpot = '510300.XSHG'
@@ -159,20 +140,6 @@ if __name__ == '__main__':
     strikePrice = 4.000
     maturityMonth = 2003
     riskFree = 0.035
-
-    # callOptionCode = rq.options.get_contracts(underlyingSpot, option_type='C', maturity=maturityMonth,
-    #                                           strike=strikePrice, trading_date=tradeDate)[0]
-    # futureCode = rq.futures.get_dominant(underlyingSymbol, start_date=tradeDate, end_date=tradeDate, rule=0)[0]
-    #
-    # callOptionData = get_tick(callOptionCode, tradeDate, tradeDate)
-    # callOptionData.drop_duplicates(keep='first', inplace=True)
-    # futureData = get_tick(futureCode, tradeDate, tradeDate)
-    # futureData.drop_duplicates(keep='first', inplace=True)
-    #
-    # filterCallOptionData = data_resample(callOptionData)
-    # filterFutureData = data_resample(futureData)
-
-    # Data = daily_compute(tradeDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth, risk_free=riskFree)
 
     Data = spread_compute(startDate, endDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth,
                           risk_free=riskFree)
