@@ -73,7 +73,20 @@ def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
                 close_list.append(future_short_price.index[i])
         profit_list.append(profit_sum)
 
-    print(profit_list)
+    if not hold_signal:
+        profit_list.append(profit_sum)
+    else:
+        if hold_state == -1:
+            profit = (hold_price_future - future_long_price[-1]) + (option_long_price[-1] - hold_price_option)
+            profit_sum += profit * 300
+            close_list.append(future_short_price.index[-1])
+        if hold_state == 1:
+            profit = (future_long_price[-1] - hold_price_future) + (hold_price_option - option_long_price[-1])
+            profit_sum += profit * 300
+            close_list.append(future_short_price.index[-1])
+        profit_list.append(profit_sum)
+
+    # print(profit_list)
 
     # fig = plt.figure()
     # ax = fig.add_subplot(111)
