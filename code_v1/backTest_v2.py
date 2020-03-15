@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from spreadCompute_v1 import *
 
 
 """
@@ -8,7 +9,7 @@ import matplotlib.pyplot as plt
 """
 
 
-def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
+def strategy(data, mean_par, std_par, open_par=3, close_par=0, stop_par=4):
     """
     :param data:
     :param mean_par:
@@ -92,6 +93,14 @@ def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
     # ax = fig.add_subplot(111)
     # ax.plot(range(len(profit_list)), profit_list)
     # plt.show()
+
+
+def par_compute(data):
+    last_spread = data['last_spread']
+    par_mean = last_spread.mean()
+    par_std = last_spread.std()
+
+    return {'mean':par_mean, 'std':par_std}
 
 
 if __name__ == '__main__':
