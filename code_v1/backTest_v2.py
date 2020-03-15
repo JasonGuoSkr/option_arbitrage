@@ -42,16 +42,16 @@ def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
     hold_state = 0  # 1 (future:long option:short); -1 (future:short option:long)
     profit_sum = 0
 
-    for i in range(1, len(data) - 1):
+    for i in range(2, len(data) - 1):
         if not hold_signal:
-            if m_spread[i - 1] >= open_threshold:
+            if m_spread[i - 2] < open_threshold < m_spread[i - 1]:
                 hold_price_future = future_short_price[i]
                 hold_price_option = option_short_price[i]
                 hold_state = -1
                 hold_signal = True
                 open_list.append(future_short_price.index[i])
                 state_list.append(hold_state)
-            elif m_spread[i - 1] <= -open_threshold:
+            elif m_spread[i - 1] < -open_threshold < m_spread[i - 2]:
                 hold_price_future = future_long_price[i]
                 hold_price_option = option_long_price[i]
                 hold_state = 1
@@ -59,25 +59,13 @@ def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
                 open_list.append(future_short_price.index[i])
                 state_list.append(hold_state)
         else:
-            if m_spread[i - 1] >= stop_threshold and hold_state == -1:
+            if (m_spread[i - 1] >= stop_threshold or m_spread[i - 1] <= close_threshold) and hold_state == -1:
                 profit = (hold_price_future - future_long_price[i]) + (option_long_price[i] - hold_price_option)
                 profit_sum += profit * 300
                 hold_state = 0
                 hold_signal = False
                 close_list.append(future_short_price.index[i])
-            if m_spread[i - 1] <= -stop_threshold and hold_state == 1:
-                profit = (future_long_price[i] - hold_price_future) + (hold_price_option - option_long_price[i])
-                profit_sum += profit * 300
-                hold_state = 0
-                hold_signal = False
-                close_list.append(future_short_price.index[i])
-            if m_spread[i - 1] <= close_threshold and hold_state == -1:
-                profit = (hold_price_future - future_long_price[i]) + (option_long_price[i] - hold_price_option)
-                profit_sum += profit * 300
-                hold_state = 0
-                hold_signal = False
-                close_list.append(future_short_price.index[i])
-            if m_spread[i - 1] >= -close_threshold and hold_state == 1:
+            if (m_spread[i - 1] <= -stop_threshold or m_spread[i - 1] >= -close_threshold) and hold_state == 1:
                 profit = (future_long_price[i] - hold_price_future) + (hold_price_option - option_long_price[i])
                 profit_sum += profit * 300
                 hold_state = 0
@@ -94,5 +82,6 @@ def strategy(data, mean_par, std_par, open_par=2, close_par=0, stop_par=3):
 
 
 if __name__ == '__main__':
-    for i in range(1, 5):
-        print(i)
+    pass
+    # for i in range(1, 5):
+    #     print(i)
