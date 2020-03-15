@@ -127,13 +127,36 @@ def spread_compute(start_date, end_date, underlying_spot, underlying_symbol, str
     return data_final
 
 
+def statistical_sum(data):
+    """
+    :param data: 价差数据
+    :return:
+    """
+    date_list = np.unique(data.index.date).tolist()
+    sum_df = pd.DataFrame(index=date_list, columns=['last_mean', 'last_std', 'last_max', 'last_min',
+                                                    'tap', 'short_mean', 'long_mean'])
+
+    for date in date_list:
+        daily_data = data[data.index.date == date]
+
+        sum_df.loc[date, 'last_mean'] = round(daily_data['last_spread'].mean(), 2)
+        sum_df.loc[date, 'last_std'] = round(daily_data['last_spread'].std(), 2)
+        sum_df.loc[date, 'last_max'] = round(daily_data['last_spread'].max(), 2)
+        sum_df.loc[date, 'last_min'] = round(daily_data['last_spread'].min(), 2)
+        sum_df.loc[date, 'short_mean'] = round(daily_data['short_spread'].mean(), 2)
+        sum_df.loc[date, 'long_mean'] = round(daily_data['long_spread'].mean(), 2)
+        sum_df.loc[date, 'tap'] = round(sum_df.loc[date, 'long_mean'] - sum_df.loc[date, 'short_mean'], 2)
+
+    return sum_df
+
+
 if __name__ == '__main__':
     rq.init("ricequant", "8ricequant8", ('10.29.135.119', 16010))
 
     # 参数
     tradeDate = '20200304'
 
-    startDate = '20200313'
+    startDate = '20200309'
     endDate = '20200313'
     underlyingSpot = '510300.XSHG'
     underlyingSymbol = 'IF'
@@ -143,8 +166,9 @@ if __name__ == '__main__':
 
     Data = spread_compute(startDate, endDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth,
                           risk_free=riskFree)
+    sumData = statistical_sum(Data)
 
-    fig = plt.figure(figsize=(5, 3))
-    plt.plot(Data['short_spread'].values, label='short_spread')
-    plt.plot(Data['long_spread'].values, label='long_spread')
-    plt.show()
+    # fig = plt.figure(figsize=(5, 3))
+    # plt.plot(Data['short_spread'].values, label='short_spread')
+    # plt.plot(Data['long_spread'].values, label='long_spread')
+    # plt.show()
