@@ -100,7 +100,7 @@ def par_compute(data):
     par_mean = last_spread.mean()
     par_std = last_spread.std()
 
-    return {'mean':par_mean, 'std':par_std}
+    return {'mean': par_mean, 'std': par_std}
 
 
 if __name__ == '__main__':
