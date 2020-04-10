@@ -159,12 +159,12 @@ if __name__ == '__main__':
     # 参数
     tradeDate = '20200304'
 
-    startDate = '20200309'
-    endDate = '20200313'
+    startDate = '20200330'
+    endDate = '20200330'
     underlyingSpot = '510300.XSHG'
     underlyingSymbol = 'IF'
-    strikePrice = 4.000
-    maturityMonth = 2003
+    strikePrice = 3.700
+    maturityMonth = 2004
     riskFree = 0.035
 
     Data = spread_compute(startDate, endDate, underlyingSpot, underlyingSymbol, strikePrice, maturityMonth,
